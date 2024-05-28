@@ -74,8 +74,8 @@ def generate_seq_prompt():
     return prompt
 
 def get_first_prompt():
-    src_directory_main = "C:/TU Delft/research_project/java-classes/src/main"
-    src_directory_test = "C:/TU Delft/research_project/java-classes/src/test"
+    src_directory_main = "C:/TU Delft/research-project-cse-3000/java-classes/src/main"
+    src_directory_test = "C:/TU Delft/research-project-cse-3000/java-classes/src/test"
 
     java_code_main_list = get_java_code(src_directory_main)
     java_classes_main_list = get_java_dir(src_directory_main)

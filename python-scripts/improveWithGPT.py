@@ -13,8 +13,8 @@ def is_float(s):
         return False
 
 if __name__ == "__main__":
-    src_directory_main = "C:/TU Delft/research_project/java-classes/src/main"
-    src_directory_test = "C:/TU Delft/research_project/java-classes/src/test"
+    src_directory_main = "C:/TU Delft/research-project-cse-3000/java-classes/src/main"
+    src_directory_test = "C:/TU Delft/research-project-cse-3000/java-classes/src/test"
     #prompt = promptGenerator.get_first_prompt()
     client = OpenAI(api_key=secret_key)
     #mess = [

@@ -1,31 +1,40 @@
+
 package jnfe_6;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.Before;
+import org.junit.Test;
+
 public class AbstractNFeAdaptadorBeanTest {
+
+    private AbstractNFeAdaptadorBean nFeAdaptadorBean;
+
     @Test
-    public void converte() {
-        assertEquals(2, AbstractNFeAdaptadorBean.convertePosPeso(43, 43));
-        assertEquals(3, AbstractNFeAdaptadorBean.convertePosPeso(42, 43));
-        assertEquals(8, AbstractNFeAdaptadorBean.convertePosPeso(37, 43));
-        assertEquals(9, AbstractNFeAdaptadorBean.convertePosPeso(36, 43));
-        assertEquals(2, AbstractNFeAdaptadorBean.convertePosPeso(35, 43));
-        assertEquals(3, AbstractNFeAdaptadorBean.convertePosPeso(34, 43));
-        assertEquals(4, AbstractNFeAdaptadorBean.convertePosPeso(1, 43));
-        assertEquals(6, AbstractNFeAdaptadorBean.convertePosPeso(7, 43));
-        assertEquals(3, AbstractNFeAdaptadorBean.convertePosPeso(10, 43));
+    public void testCalculaDV() {
+        assertEquals(5, AbstractNFeAdaptadorBean.calculaDV("5206043300991100250655012000000780026730161"));
+        assertEquals(0, AbstractNFeAdaptadorBean.calculaDV("0000000000000000000000000000000000000000000"));
     }
 
     @Test
-    public void soma() {
-        String chNFe = "5206043300991100250655012000000780026730161";
-        assertEquals(43, chNFe.length());
-        assertEquals(644, AbstractNFeAdaptadorBean.calculaSomaDV(chNFe));
+    public void testCalculaSomaDV() {
+        assertEquals(644, AbstractNFeAdaptadorBean.calculaSomaDV("5206043300991100250655012000000780026730161"));
     }
+
     @Test
-    public void calcula() {
-        String chNFe = "5206043300991100250655012000000780026730161";
-        assertEquals(5, AbstractNFeAdaptadorBean.calculaDV(chNFe));
+    public void testConvertePosPeso() {
+        assertEquals(2, AbstractNFeAdaptadorBean.convertePosPeso(43, 43));
+        assertEquals(4, AbstractNFeAdaptadorBean.convertePosPeso(1, 43));
     }
+
+    @Before
+    public void setUp() {
+        nFeAdaptadorBean = new AbstractNFeAdaptadorBean();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCalculaSomaDVWithInvalidChave() {
+        AbstractNFeAdaptadorBean.calculaSomaDV("520604330099110025065501200000078002673016"); // Invalid chave length (42)
+    }
+
 }

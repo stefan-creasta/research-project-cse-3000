@@ -6,7 +6,7 @@ def run_pitest():
     # Change directory to java-classes
     #print(os.getcwd())
     #os.chdir("research_project/python-scripts")
-    os.chdir("C:/TU Delft/research_project/java-classes")
+    os.chdir("C:/TU Delft/research-project-cse-3000/java-classes")
     #print(os.getcwd())
     # Run Pitest command
     mvn_path = "C:/apache-maven-3.9.6/bin/mvn.cmd"
