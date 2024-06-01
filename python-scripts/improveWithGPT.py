@@ -29,6 +29,7 @@ if __name__ == "__main__":
             prompt = promptGenerator.get_first_prompt()
         else:
             prompt = promptGenerator.generate_seq_prompt()
+        #print(prompt)
         mess.append({"role": "user", "content": prompt})
         completion = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -74,4 +75,5 @@ if __name__ == "__main__":
             print("Step " + str(steps) + ": mutation score of " + str(ms))
         else:
             print("Step " + str(steps) + ": tests crashed")
+        #print(response_text)
         steps+=1

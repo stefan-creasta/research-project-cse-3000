@@ -1,28 +1,30 @@
 import subprocess
 import os
 import re
+from runTest import run_test
+
+mvn_path = "C:/apache-maven-3.9.6/bin/mvn.cmd"
+
+def run_maven_command(command):
+    process = subprocess.Popen([mvn_path] + command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    return stdout, stderr
 
 def run_pitest():
     # Change directory to java-classes
     #print(os.getcwd())
     #os.chdir("research_project/python-scripts")
     os.chdir("C:/TU Delft/research-project-cse-3000/java-classes")
+
     #print(os.getcwd())
     # Run Pitest command
-    mvn_path = "C:/apache-maven-3.9.6/bin/mvn.cmd"
     command = [mvn_path, "clean", "test", "org.pitest:pitest-maven:mutationCoverage"]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     # Check for errors
     if process.returncode != 0:
-        error_message = stdout.decode("utf-8")
-        error_lines = ""
-        for line in error_message.splitlines():
-            if line.startswith("[ERROR]"):
-                error_lines += line + "\n"
-        #print("Error running Pitest:")
-        #print(error_lines)
-        return error_lines
+        run_test()
+
 
     # Extract mutation score from the output
     output_lines = stdout.decode("utf-8").split('\n')

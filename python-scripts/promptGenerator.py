@@ -89,4 +89,5 @@ def get_first_prompt():
 
 if __name__ == "__main__":
     #print(get_first_prompt())
+    aaa = get_first_prompt()
     print(generate_seq_prompt())
