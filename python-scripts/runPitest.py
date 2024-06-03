@@ -23,7 +23,7 @@ def run_pitest():
     stdout, stderr = process.communicate()
     # Check for errors
     if process.returncode != 0:
-        run_test()
+        return run_test()
 
 
     # Extract mutation score from the output

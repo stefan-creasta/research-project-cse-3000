@@ -282,7 +282,7 @@ public class ByteVector {
      * @param size number of additional bytes that this byte vector should be
      *        able to receive.
      */
-    private void enlarge(final int size) {
+    public void enlarge(final int size) {
         int length1 = 2 * data.length;
         int length2 = length + size;
         byte[] newData = new byte[length1 > length2 ? length1 : length2];

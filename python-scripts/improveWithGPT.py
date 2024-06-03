@@ -24,12 +24,16 @@ if __name__ == "__main__":
     mess = []
     steps = 1
     print("Initial mutation score: " + str(runPitest.run_pitest()))
-    while steps < 5:
+    prev_mut = -1
+    while steps < 10:
         if steps == 1:
             prompt = promptGenerator.get_first_prompt()
         else:
-            prompt = promptGenerator.generate_seq_prompt()
-        #print(prompt)
+            prompt = promptGenerator.generate_seq_prompt(prev_mut)
+        print(prompt)
+        prev_mut = runPitest.run_pitest()
+        if is_float(prev_mut) == False:
+            prev_mut = -1
         mess.append({"role": "user", "content": prompt})
         completion = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -38,7 +42,7 @@ if __name__ == "__main__":
         response_text = completion.choices[0].message.content
         mess.append({"role": "assistant", "content": response_text})
         # Print the full response
-        #print("Full response:\n", response_text)
+        print("Full response:\n", response_text)
 
         # Extract code from the response (assuming the code is enclosed in triple backticks ``` for markdown formatting)
         import re

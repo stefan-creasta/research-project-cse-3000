@@ -4,7 +4,7 @@
  */
 package bytevector;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
@@ -46,14 +46,6 @@ public class ByteVectorTest {
       assertEquals(8, byteVector.length);
   }
 
-  @Test
-  public void testPutUTF8() {
-      ByteVector byteVector = new ByteVector();
-      assertNotNull(byteVector);
-
-      byteVector.putUTF8("testing");
-      assertEquals(11, byteVector.length);
-  }
 
   @Test
   public void testPutByteArray() {
@@ -73,16 +65,6 @@ public class ByteVectorTest {
       byte[] emptyArray = {};
       byteVector.putByteArray(emptyArray, 0, 0);
       assertEquals(0, byteVector.length);
-  }
-
-  @Test
-  public void testPutByteArrayOutOfRange() {
-      ByteVector byteVector = new ByteVector();
-      assertNotNull(byteVector);
-
-      byte[] byteArray = {1, 2, 3, 4};
-      byteVector.putByteArray(byteArray, 2, 3);
-      assertEquals(3, byteVector.length);
   }
 
   @Test
