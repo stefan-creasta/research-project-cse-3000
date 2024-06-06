@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: bytevector.ByteVectorTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.088 s - in bytevector.ByteVectorTest
+Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.097 s - in bytevector.ByteVectorTest
