@@ -73,16 +73,16 @@ def generate_seq_prompt(prev_mut):
     if is_float(mutation_score) == True:
         if mutation_score == prev_mut:
             prompt += "Using PiTest, the current mutation score is still " + str(mutation_score) + ". I need to further improve this score by adding more robust and comprehensive test cases. "
-            prompt += "Can you suggest additional test cases to include in the test suite to improve the mutation score? Please ensure the new test cases are designed to cover edge cases, exceptional conditions, and any missed scenarios. The goal is to catch as many mutations as possible."
+            prompt += "Can you suggest additional test cases to include in the test suite to improve the mutation score? Please ensure the new test cases are designed to cover edge cases, exceptional conditions, and any missed scenarios. Here are the specific types of changes I would like to focus on: changing logical operators, altering arithmetic operators, boolean mutations, relational mutations, numerical mutations, string mutations, return value mutations, increment/decrement mutations, statement mutations. The goal is to catch as many mutations as possible."
             prompt += " Please provide only the entire code (with the old and new test cases), and make sure to include the package on the first line."
 
         else:
             prompt += "Using PiTest, the current mutation score is " + str(mutation_score) + ". I need to further improve this score by adding more robust and comprehensive test cases. "
-            prompt += "Can you suggest additional test cases to include in the test suite to improve the mutation score? Please ensure the new test cases are designed to cover edge cases, exceptional conditions, and any missed scenarios. The goal is to catch as many mutations as possible."
+            prompt += "Can you suggest additional test cases to include in the test suite to improve the mutation score? Please ensure the new test cases are designed to cover edge cases, exceptional conditions, and any missed scenarios. Here are the specific types of changes I would like to focus on: changing logical operators, altering arithmetic operators, boolean mutations, relational mutations, numerical mutations, string mutations, return value mutations, increment/decrement mutations, statement mutations. The goal is to catch as many mutations as possible."
             prompt += " Please provide only the entire code (with the old and new test cases), and make sure to include the package on the first line."
 
     else:
-        prompt += "I get the following errors: " + str(mutation_score) + "Can you provide me with the entire code for the tests, such that the errors are fixed? Please include the package on the first line"
+        prompt += str(mutation_score) + ". Can you provide me with the entire code for the tests, such that the errors are fixed? Please include the package on the first line"
     return prompt
 
 def get_first_prompt():
@@ -100,6 +100,6 @@ def get_first_prompt():
     return prompt
 
 if __name__ == "__main__":
-    print(get_first_prompt())
-    aaa = get_first_prompt()
-    print(generate_seq_prompt(-1))
+    #print(get_first_prompt())
+    aaa = generate_seq_prompt(-1)
+    print(aaa)

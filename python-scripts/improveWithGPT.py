@@ -30,6 +30,7 @@ if __name__ == "__main__":
             prompt = promptGenerator.get_first_prompt()
         else:
             prompt = promptGenerator.generate_seq_prompt(prev_mut)
+        prompt += ". Make sure that the name of the class remains the same."
         print(prompt)
         prev_mut = runPitest.run_pitest()
         if is_float(prev_mut) == False:
@@ -74,6 +75,10 @@ if __name__ == "__main__":
 
         else:
             print("\nNo code found in the response.")
+            tets_directory = promptGenerator.get_root_tests(src_directory_test)
+            test_file_path = tets_directory[0]
+            with open(test_file_path, "w") as file:
+                file.write(response_text)
         ms = runPitest.run_pitest()
         if is_float(ms) == True:
             print("Step " + str(steps) + ": mutation score of " + str(ms))

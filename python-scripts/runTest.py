@@ -6,33 +6,63 @@ import matplotlib.pyplot as plt
 mvn_path = "C:/apache-maven-3.9.6/bin/mvn.cmd"
 
 def run_test():
-    current_path = os.getcwd()
     command = [mvn_path, "test"]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    # Decode the byte string
     decoded_output = stdout.decode('utf-8')
 
-    # Regular expressions to match error and failure lines
-    failure_regex = re.compile(r'\[ERROR\] Failures:\s*\[ERROR\](.*?)\r\n', re.DOTALL)
-    error_regex = re.compile(r'\[ERROR\] Errors:\s*\[ERROR\](.*?)\r\n', re.DOTALL)
+    # Regular expressions to find the sections with failures and errors
+    compilation_error_block_regex = re.compile(
+        r'\[ERROR\] COMPILATION ERROR :(.*?)\[INFO\] ------------------------------------------------------------------------',
+        re.DOTALL)
+    failures_section_regex = re.compile(r'\[ERROR\] Failures:(.*?)\[INFO\]', re.DOTALL)
+    errors_section_regex = re.compile(r'\[ERROR\] Errors:(.*?)\[INFO\]', re.DOTALL)
 
-    # Find all matches
-    failures = failure_regex.findall(decoded_output)
-    errors = error_regex.findall(decoded_output)
+    # Extract individual compilation errors
+    compilation_error_match = compilation_error_block_regex.search(decoded_output)
 
-    # Clean up the results
-    failures = [f.strip() for f in failures]
-    errors = [e.strip() for e in errors]
+    compilation_errors = []
+    if compilation_error_match:
+        compilation_error_block = compilation_error_match.group(1).strip()
+        # Extract individual error messages within the compilation error block
+        error_lines = compilation_error_block.split('\n')
+        for i, line in enumerate(error_lines):
+            if line.startswith("[ERROR]"):
+                error_message = line.strip()
+                # Check if the next line is indented (continuation of the error message)
+                if i + 1 < len(error_lines) and error_lines[i + 1].startswith("    "):
+                    error_message += "\n" + error_lines[i + 1].strip()
+                compilation_errors.append(error_message)
 
-    # Combine the results into a list
-    test_issues = failures + errors
+    # Find the failures section
+    failures_section_match = failures_section_regex.search(decoded_output)
+    errors_section_match = errors_section_regex.search(decoded_output)
 
-    # Print the list of issues
-    string = ""
-    for test in test_issues:
-        string = string + test + "\n"
-    return string
+    # Extract individual error messages within the failures section
+    failure_issues = []
+    if failures_section_match:
+        failures_section = failures_section_match.group(1)
+        failure_error_regex = re.compile(r'\[ERROR\] +(.+)', re.MULTILINE)
+        failure_issues = failure_error_regex.findall(failures_section)
+
+    # Extract individual error messages within the errors section
+    error_issues = []
+    if errors_section_match:
+        errors_section = errors_section_match.group(1)
+        error_error_regex = re.compile(r'\[ERROR\] +(.+)', re.MULTILINE)
+        error_issues = error_error_regex.findall(errors_section)
+
+    # Combine the results into a single string
+    all_issues = compilation_errors + failure_issues + error_issues
+    if len(all_issues) > 3:
+        all_issues = all_issues[:3]
+    if len(compilation_errors) > 0:
+        issue_string = "The code is not able to build and I get the following compilation errors: "
+    else:
+        issue_string = "I get the following errors: "
+    issue_string += "\n".join(all_issues)
+
+    return issue_string
 
 if __name__ == '__main__':
 
