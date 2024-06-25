@@ -2,7 +2,7 @@ from openai import OpenAI
 import runPitest
 import promptGenerator
 import openai
-secret_key = "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"
+secret_key = "your-key"
 openai.api_key = secret_key
 
 def is_float(s):
